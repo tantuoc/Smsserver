@@ -19,7 +19,7 @@ import me.tnkid.smsserver.model.Score;
 import me.tnkid.smsserver.mystring.MyString;
 
 /**
- * Created by tom on 12/4/2017.
+ * Created by tantuoc on 12/4/2017.
  */
 
 public class MyBroadcast extends BroadcastReceiver {
@@ -37,20 +37,16 @@ public class MyBroadcast extends BroadcastReceiver {
             /* Get Messages */
                 Object[] sms = (Object[]) intentExtras.get("pdus");
                 SmsMessage smsMessage;
-                String p;
-                String m;
                 String format = intentExtras.getString("format");
-                for (int i = 0; i < sms.length; i++) {
-                    smsMessage = SmsMessage.createFromPdu((byte[]) sms[i], format);
-                    p = smsMessage.getOriginatingAddress().toString();
-                    m = smsMessage.getMessageBody().toString();
+                for (Object so:sms) {
+                    smsMessage = SmsMessage.createFromPdu((byte[]) so, format);
+                   String p = smsMessage.getOriginatingAddress().toString();
+                   String m = smsMessage.getMessageBody().toString();
                     sendMSG(p,m);
                 }
             }
         }
-        else {
-            //
-        }
+
 
     }
 
@@ -76,9 +72,9 @@ public class MyBroadcast extends BroadcastReceiver {
         String[] ss = msg.trim().split("\\s");
 
         for (String w : ss) {
-            if (!w.trim().equals(null))
+            if (w.trim()!=null)
                 ls.add(w);
-            if (ls.get(0).toString().equalsIgnoreCase("diem") && w.toString() != null) {
+            if (ls.get(0).equalsIgnoreCase(MyString.CU_PHAP_SMS) && w.trim() != null) {
                 return true;
             }
 
@@ -94,10 +90,10 @@ public class MyBroadcast extends BroadcastReceiver {
         String[] ss = msg.trim().split("\\s");
 
         for (String w : ss) {
-            if (!w.trim().equals(null))
+            if (w.trim()!=null)
                 ls.add(w);
-            if (ls.get(0).toString().equalsIgnoreCase("diem") && w.toString() != null) {
-                mhs = w.toString();
+            if (ls.get(0).equalsIgnoreCase(MyString.CU_PHAP_SMS) && w.trim() != null) {
+                mhs = w;
             }
         }
 
@@ -105,11 +101,10 @@ public class MyBroadcast extends BroadcastReceiver {
     }
 
     void sendMSG(String p, String m){
-        String sai = "Sai cú pháp! bạn vui lòng gửi lại tin nhắn với cú pháp: DIEM [KHOẢNG TRẮNG] [MÃ HỌC SINH] ";
         if (p != null && m != null)
             if (!phanTichSms(m))
 
-                sendSms(p, sai);
+                sendSms(p, MyString.SAI_CP);
             else {
                 score = scoreDAO.findScoreByID(getMhsFromMsg(m));
                 if (score != null) {

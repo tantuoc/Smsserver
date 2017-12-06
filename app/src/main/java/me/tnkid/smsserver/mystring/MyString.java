@@ -1,7 +1,7 @@
 package me.tnkid.smsserver.mystring;
 
 /**
- * Created by tom on 12/5/2017.
+ * Created by tantuoc on 12/5/2017.
  */
 
 public class MyString {
@@ -14,5 +14,9 @@ public class MyString {
     public static final String D_TOAN = "stoan";
     public static final String D_LY  = "sly";
     public static final String D_HOA = "shoa";
-    public static  final boolean IS_RUNNING =true;
+    public static final boolean IS_RUNNING =true;
+
+    public static  final String CU_PHAP_SMS = "DIEMT";
+
+    public static final String SAI_CP = "Sai cú pháp! bạn vui lòng gửi lại tin nhắn với cú pháp: DIEM [KHOẢNG TRẮNG] [MÃ HỌC SINH] ";
 }
