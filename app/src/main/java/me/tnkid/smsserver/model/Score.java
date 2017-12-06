@@ -2,18 +2,19 @@ package me.tnkid.smsserver.model;
 
 import java.io.Serializable;
 
+
 /**
- * Created by tom on 12/5/2017.
+ * Created by tantuoc96 on 12/5/2017.
  */
 
-public class Score implements Serializable {
+public class Score {
     int MHS;
     String name;
-    int dToan;
-    int dLy;
-    int dHoa;
+    float dToan;
+    float dLy;
+    float dHoa;
 
-    public Score(int MHS, String name, int dToan, int dLy, int dHoa) {
+    public Score(int MHS, String name, float dToan, float dLy, float dHoa) {
         this.MHS = MHS;
         this.name = name;
         this.dToan = dToan;
@@ -25,7 +26,7 @@ public class Score implements Serializable {
         return MHS;
     }
 
-    public void setMHS(int MSSV) {
+    public void setMHS(int MHS) {
         this.MHS = MHS;
     }
 
@@ -37,28 +38,27 @@ public class Score implements Serializable {
         this.name = name;
     }
 
-    public int getdToan() {
+    public float getdToan() {
         return dToan;
     }
 
-    public void setdToan(int dToan) {
+    public void setdToan(float dToan) {
         this.dToan = dToan;
     }
 
-    public int getdLy() {
+    public float getdLy() {
         return dLy;
     }
 
-    public void setdLy(int dLy) {
+    public void setdLy(float dLy) {
         this.dLy = dLy;
     }
 
-    public int getdHoa() {
+    public float getdHoa() {
         return dHoa;
     }
 
-    public void setdHoa(int dHoa) {
+    public void setdHoa(float dHoa) {
         this.dHoa = dHoa;
     }
-
 }

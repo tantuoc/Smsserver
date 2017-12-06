@@ -14,23 +14,21 @@ import java.util.ArrayList;
 import java.util.List;
 
 import me.tnkid.smsserver.MainActivity;
+import me.tnkid.smsserver.R;
 import me.tnkid.smsserver.dao.ScoreDAO;
 import me.tnkid.smsserver.model.Score;
-import me.tnkid.smsserver.mystring.MyString;
 
-/**
- * Created by tantuoc on 12/4/2017.
- */
 
-public class MyBroadcast extends BroadcastReceiver {
+
+public class SMSBroadcastRecevier extends BroadcastReceiver {
     protected MainActivity context;
     ScoreDAO scoreDAO;
     Score score;
+    private boolean state = true;
 
     @Override
     public void onReceive(Context context, Intent intent) {
         scoreDAO = new ScoreDAO(context);
-        if(MyString.IS_RUNNING){
 
             Bundle intentExtras = intent.getExtras();
             if (intentExtras != null) {
@@ -38,32 +36,39 @@ public class MyBroadcast extends BroadcastReceiver {
                 Object[] sms = (Object[]) intentExtras.get("pdus");
                 SmsMessage smsMessage;
                 String format = intentExtras.getString("format");
-                for (Object so:sms) {
+                String p;
+                String m;
+                for (Object so : sms) {
                     smsMessage = SmsMessage.createFromPdu((byte[]) so, format);
-                   String p = smsMessage.getOriginatingAddress().toString();
-                   String m = smsMessage.getMessageBody().toString();
-                    sendMSG(p,m);
-                }
+                    p = smsMessage.getOriginatingAddress().toString();
+                    m = smsMessage.getMessageBody().toString();
+
+                    if (isState())
+                    sendMSG(p, m);
+
             }
+
         }
 
+    }
+    public boolean isState() {
+        return state;
+    }
 
+    public void setState(boolean state) {
+        this.state = state;
     }
 
     private void sendSms(String strPhone, String strMessage) {
         SmsManager sms = SmsManager.getDefault();
 
         try {
-            ArrayList<String> messageParts = sms.divideMessage(strMessage);
-            sms.sendMultipartTextMessage(strPhone, null, messageParts, null, null);
-
-
+                ArrayList<String> messageParts = sms.divideMessage(strMessage);
+                sms.sendMultipartTextMessage(strPhone, null, messageParts, null, null);
         } catch (Exception e) {
             Log.d("EXCP", e.getMessage());
 
         }
-
-
     }
 
     private boolean phanTichSms(String msg) {
@@ -72,9 +77,9 @@ public class MyBroadcast extends BroadcastReceiver {
         String[] ss = msg.trim().split("\\s");
 
         for (String w : ss) {
-            if (w.trim()!=null)
+            if (w.toString().trim() != null)
                 ls.add(w);
-            if (ls.get(0).equalsIgnoreCase(MyString.CU_PHAP_SMS) && w.trim() != null) {
+            if (ls.get(0).equalsIgnoreCase("diem") && w.toString().trim() != null) {
                 return true;
             }
 
@@ -90,34 +95,33 @@ public class MyBroadcast extends BroadcastReceiver {
         String[] ss = msg.trim().split("\\s");
 
         for (String w : ss) {
-            if (w.trim()!=null)
+            if (w.trim() != null)
                 ls.add(w);
-            if (ls.get(0).equalsIgnoreCase(MyString.CU_PHAP_SMS) && w.trim() != null) {
+            if (ls.get(0).equalsIgnoreCase("diem") && w.trim() != null) {
                 mhs = w;
             }
         }
-
         return mhs;
     }
 
-    void sendMSG(String p, String m){
-        if (p != null && m != null)
-            if (!phanTichSms(m))
+    private void sendMSG(String p, String m) {
 
-                sendSms(p, MyString.SAI_CP);
-            else {
-                score = scoreDAO.findScoreByID(getMhsFromMsg(m));
-                if (score != null) {
-                    String rs = "Mã học sinh : " + score.getMHS() + "\n";
-                    rs += "Tên : " + score.getName() + "\n";
-                    rs += "Toán : " + score.getdToan() + "\n";
-                    rs += "Lý : " + score.getdLy() + "\n";
-                    rs += "Hoá : " + score.getdHoa();
-                    sendSms(p, rs);
+            if (p != null && m != null)
+                if (!phanTichSms(m))
+                    sendSms(p, context.getString(R.string.saicpsms).toString());
+                else {
+                    score = scoreDAO.findScoreByID(getMhsFromMsg(m));
+                    if (score != null) {
+                        String rs = "Mã học sinh : " + score.getMHS() + "\n";
+                        rs += "Tên : " + score.getName() + "\n";
+                        rs += "Toán : " + score.getdToan() + "\n";
+                        rs += "Lý : " + score.getdLy() + "\n";
+                        rs += "Hoá : " + score.getdHoa();
+                        sendSms(p, rs);
+                    } else sendSms(p, "Mã học sinh không tồn tại!");
+                }
 
-                } else sendSms(p, "Mã học sinh không tồn tại!");
 
-            }
     }
 }
 

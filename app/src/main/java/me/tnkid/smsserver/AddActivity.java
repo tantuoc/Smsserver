@@ -10,6 +10,10 @@ import android.widget.Toast;
 import me.tnkid.smsserver.dao.ScoreDAO;
 import me.tnkid.smsserver.model.Score;
 
+/**
+ * Created by tantuoc96 on 12/5/2017.
+ */
+
 public class AddActivity extends AppCompatActivity {
     EditText mhs,tenhs,dtoan,dly,dhoa;
     Button them;
@@ -33,9 +37,9 @@ public class AddActivity extends AppCompatActivity {
             public void onClick(View view) {
                 int mahs = Integer.parseInt(mhs.getText().toString().trim());
                 String name = tenhs.getText().toString().trim();
-                int toan = Integer.parseInt(dtoan.getText().toString().trim());
-                int ly = Integer.parseInt(dly.getText().toString().trim());
-                int hoa = Integer.parseInt(dhoa.getText().toString().trim());
+                float toan = Float.parseFloat(dtoan.getText().toString().trim());
+                float ly = Float.parseFloat(dly.getText().toString().trim());
+                float hoa = Float.parseFloat(dhoa.getText().toString().trim());
                 if(mhs.getText().toString().trim()==null||name==null)
                     Toast.makeText(getApplicationContext(),"Mã HS và Tên HS không được để trống",Toast.LENGTH_LONG).show();
                 else {
@@ -44,7 +48,6 @@ public class AddActivity extends AppCompatActivity {
                     if (!rs) Toast.makeText(getApplicationContext(),"Thêm Lỗi",Toast.LENGTH_LONG).show();
                     else{ Toast.makeText(getApplicationContext(),"Thêm Thành công",Toast.LENGTH_LONG).show();
                       Intent i = new Intent(AddActivity.this,MainActivity.class);
-
                         startActivity(i);
 
 
@@ -55,11 +58,5 @@ public class AddActivity extends AppCompatActivity {
 
     }
 
-   /* @Override
-    public void onBackPressed() {
-        super.onBackPressed();
-        Intent i = new Intent(AddActivity.this,MainActivity.class);
-        startActivity(i);
 
-    }*/
 }

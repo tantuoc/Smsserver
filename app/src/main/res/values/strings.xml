@@ -8,4 +8,7 @@
     <string name="dly">Điểm môn lý</string>
     <string name="dhoa">Điểm môn hoá</string>
 
+    <string name="cpsms">DIEM</string>
+    <string name="saicpsms">Sai cú pháp! bạn vui lòng gửi lại tin nhắn với cú pháp: DIEM [KHOẢNG TRẮNG] [MÃ HỌC SINH]</string>
+
 </resources>

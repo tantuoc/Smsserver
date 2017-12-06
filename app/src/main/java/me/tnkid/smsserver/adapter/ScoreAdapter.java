@@ -14,7 +14,7 @@ import me.tnkid.smsserver.R;
 import me.tnkid.smsserver.model.Score;
 
 /**
- * Created by tom on 12/5/2017.
+ * Created by tantuoc96 on 12/5/2017.
  */
 
 public class ScoreAdapter extends BaseAdapter {
