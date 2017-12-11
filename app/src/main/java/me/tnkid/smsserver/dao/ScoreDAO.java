@@ -28,14 +28,16 @@ import me.tnkid.smsserver.model.Score;
 public class ScoreDAO {
     private ScoreDb sqLite;
     private SQLiteDatabase sqLiteDatabase;
-    private String[] coLums = {MyConstant.MA_HS, MyConstant.TEN_HS,
+    private String[] coLumsScore = {MyConstant.MA_HS, MyConstant.TEN_HS,
             MyConstant.D_TOAN, MyConstant.D_LY, MyConstant.D_HOA};
+
+
 
     public ScoreDAO(Context context) {
         sqLite = new ScoreDb(context);
-        open();
 
     }
+
     public void open() {
         sqLiteDatabase = sqLite.getWritableDatabase();
 
@@ -59,14 +61,33 @@ public class ScoreDAO {
         return  false;
 
     }
+    public boolean delScore(int mhs){
+        long rs = sqLiteDatabase.delete(MyConstant.TB_SCORE,MyConstant.MA_HS +"="+mhs,null);
+        close();
+        if (rs!=0) return true;
+        return  false;
 
+    }
+    public boolean editScore(Score s){
+        ContentValues contentValues = new ContentValues();
+        contentValues.put(MyConstant.MA_HS,s.getMHS());
+        contentValues.put(MyConstant.TEN_HS,s.getName());
+        contentValues.put(MyConstant.D_TOAN,s.getdToan());
+        contentValues.put(MyConstant.D_LY,s.getdLy());
+        contentValues.put(MyConstant.D_HOA,s.getdHoa());
+
+        long result = sqLiteDatabase.update(MyConstant.TB_SCORE,contentValues,MyConstant.MA_HS +" = "+s.getMHS(),null);
+        close();
+        if (result!=0) return true;
+        return  false;
+
+    }
 
     public List<Score> getScore(){
         Score s;
-        List<Score> arrs = new ArrayList<Score>();
-        Cursor cur = sqLiteDatabase.query(MyConstant.TB_SCORE,coLums,null,null,null,null,null);
+        List<Score> arrs = new ArrayList<>();
+        Cursor cur = sqLiteDatabase.query(MyConstant.TB_SCORE, coLumsScore,null,null,null,null,null);
         cur.moveToFirst();
-
         while (!cur.isAfterLast()){
             int  mhs =cur.getInt(0);
             String name =cur.getString(1);
@@ -81,8 +102,10 @@ public class ScoreDAO {
 
         return arrs;
     }
+
+
     public Score findScoreByID(String id){
-        Cursor cur = sqLiteDatabase.query(MyConstant.TB_SCORE, coLums,
+        Cursor cur = sqLiteDatabase.query(MyConstant.TB_SCORE, coLumsScore,
                 null, null, null, null, null);
         cur.moveToFirst();
         while (!cur.isAfterLast()) {
@@ -102,5 +125,6 @@ public class ScoreDAO {
         }
         return null;
     }
+
 
 }

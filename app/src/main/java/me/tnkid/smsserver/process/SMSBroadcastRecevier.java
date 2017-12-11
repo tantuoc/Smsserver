@@ -7,32 +7,29 @@ import android.os.Bundle;
 
 import android.telephony.SmsManager;
 import android.telephony.SmsMessage;
-
 import android.util.Log;
+
 
 import java.util.ArrayList;
 import java.util.List;
 
-import me.tnkid.smsserver.MainActivity;
-import me.tnkid.smsserver.R;
 import me.tnkid.smsserver.dao.ScoreDAO;
 import me.tnkid.smsserver.model.Score;
 
 
-
 public class SMSBroadcastRecevier extends BroadcastReceiver {
-    protected MainActivity context;
-    ScoreDAO scoreDAO;
     Score score;
+    ScoreDAO scoreDAO;
+    Config config;
     private boolean state = true;
 
     @Override
     public void onReceive(Context context, Intent intent) {
-        scoreDAO = new ScoreDAO(context);
-
+        Config config = new Config(context);
+        if (config.isRunning()) {
+            scoreDAO = new ScoreDAO(context);
             Bundle intentExtras = intent.getExtras();
             if (intentExtras != null) {
-            /* Get Messages */
                 Object[] sms = (Object[]) intentExtras.get("pdus");
                 SmsMessage smsMessage;
                 String format = intentExtras.getString("format");
@@ -42,29 +39,23 @@ public class SMSBroadcastRecevier extends BroadcastReceiver {
                     smsMessage = SmsMessage.createFromPdu((byte[]) so, format);
                     p = smsMessage.getOriginatingAddress().toString();
                     m = smsMessage.getMessageBody().toString();
+                    sendMSG(p,m);
+                  /* intent = new Intent(context,SMSIntentService.class);
+                    intent.putExtra("p",p);
+                    intent.putExtra("m",m);
+                    context.startService(intent);*/
 
-                    if (isState())
-                    sendMSG(p, m);
+                }
 
             }
-
         }
-
     }
-    public boolean isState() {
-        return state;
-    }
-
-    public void setState(boolean state) {
-        this.state = state;
-    }
-
     private void sendSms(String strPhone, String strMessage) {
         SmsManager sms = SmsManager.getDefault();
 
         try {
-                ArrayList<String> messageParts = sms.divideMessage(strMessage);
-                sms.sendMultipartTextMessage(strPhone, null, messageParts, null, null);
+            ArrayList<String> messageParts = sms.divideMessage(strMessage);
+            sms.sendMultipartTextMessage(strPhone, null, messageParts, null, null);
         } catch (Exception e) {
             Log.d("EXCP", e.getMessage());
 
@@ -106,23 +97,24 @@ public class SMSBroadcastRecevier extends BroadcastReceiver {
 
     private void sendMSG(String p, String m) {
 
-            if (p != null && m != null)
-                if (!phanTichSms(m))
-                    sendSms(p, context.getString(R.string.saicpsms).toString());
-                else {
-                    score = scoreDAO.findScoreByID(getMhsFromMsg(m));
-                    if (score != null) {
-                        String rs = "Mã học sinh : " + score.getMHS() + "\n";
-                        rs += "Tên : " + score.getName() + "\n";
-                        rs += "Toán : " + score.getdToan() + "\n";
-                        rs += "Lý : " + score.getdLy() + "\n";
-                        rs += "Hoá : " + score.getdHoa();
-                        sendSms(p, rs);
-                    } else sendSms(p, "Mã học sinh không tồn tại!");
-                }
+        if (p != null && m != null)
+            if (!phanTichSms(m))
+                sendSms(p,"Sai cú pháp! bạn vui lòng gửi lại tin nhắn với cú pháp: DIEM [KHOẢNG TRẮNG] [MÃ HỌC SINH]");
+            else {
+                score = scoreDAO.findScoreByID(getMhsFromMsg(m));
+                if (score != null) {
+                    String rs = "Mã học sinh : " + score.getMHS() + "\n";
+                    rs += "Tên : " + score.getName() + "\n";
+                    rs += "Toán : " + score.getdToan() + "\n";
+                    rs += "Lý : " + score.getdLy() + "\n";
+                    rs += "Hoá : " + score.getdHoa();
+                    sendSms(p, rs);
+                } else sendSms(p, "Mã học sinh không tồn tại!");
+            }
 
 
     }
+
 }
 
 

@@ -10,5 +10,14 @@
 
     <string name="cpsms">DIEM</string>
     <string name="saicpsms">Sai cú pháp! bạn vui lòng gửi lại tin nhắn với cú pháp: DIEM [KHOẢNG TRẮNG] [MÃ HỌC SINH]</string>
+    <string name="sso">ON</string>
+    <string name="title_activity_all">AllActivity</string>
 
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="nav_header_title">SServer</string>
+    <string name="nav_header_subtitle">admin@tnkid.me</string>
+    <string name="nav_header_desc">Navigation header</string>
+    <string name="cancel">Cancel</string>
+    <string name="ok">Ok</string>
 </resources>

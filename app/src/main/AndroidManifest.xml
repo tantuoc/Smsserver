@@ -19,22 +19,41 @@
             android:name=".MainActivity"
             android:launchMode="singleTask"
             android:theme="@style/AppTheme.NoActionBar">
+
+            <!--
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+            -->
+        </activity>
+
+        <receiver
+            android:name=".process.SMSBroadcastRecevier"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.provider.Telephony.SMS_RECEIVED" />
+            </intent-filter>
+        </receiver>
+
+        <activity
+            android:name=".ScoreActivity"
+            android:label="@string/app_name" />
+
+
+
+        <activity
+            android:name=".AllActivity"
+            android:label="@string/app_name"
+            android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
-        <receiver
-            android:name=".process.SMSBroadcastRecevier"
-            android:exported="true">
-            <intent-filter android:priority="1412">
-                <action android:name="android.provider.Telephony.SMS_RECEIVED" />
-            </intent-filter>
-        </receiver>
-
-        <activity android:name=".AddActivity" android:label="@string/them"></activity>
+        <activity android:name=".SettingActivity" android:label="@string/action_settings"></activity>
     </application>
 
 </manifest>

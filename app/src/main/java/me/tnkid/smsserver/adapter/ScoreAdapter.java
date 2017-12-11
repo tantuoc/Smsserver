@@ -57,6 +57,7 @@ public class ScoreAdapter extends BaseAdapter {
         }
 
         ViewHolder holder = (ViewHolder) viewRow.getTag();
+
         holder.ten.setText("Tên: "+scoreList.get(i).getName());
         holder.mhs.setText("MHS: "+scoreList.get(i).getMHS());
         holder.toan.setText("Toán: "+scoreList.get(i).getdToan());

@@ -7,7 +7,7 @@ import java.io.Serializable;
  * Created by tantuoc96 on 12/5/2017.
  */
 
-public class Score {
+public class Score implements Serializable {
     int MHS;
     String name;
     float dToan;
