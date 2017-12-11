@@ -25,9 +25,9 @@ public class ScoreDb extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase sqLiteDatabase) {
-        String queryScore = "CREATE TABLE " + MyConstant.TB_SCORE + "(" + MyConstant.MA_HS +
-                " INTEGER PRIMARY KEY, " + MyConstant.TEN_HS + " TEXT, " +
-                MyConstant.D_TOAN + " REAL DEFAULT NULL, " + MyConstant.D_LY + " REAL DEFAULT NULL, " + MyConstant.D_HOA + " REAL DEFAULT NULL);";
+        String queryScore = "CREATE TABLE " + MyConstant.TB_SCORE + "( " + MyConstant.MA_HS +
+                " INTEGER PRIMARY KEY , " + MyConstant.TEN_HS + " TEXT, " +
+                MyConstant.D_TOAN + " REAL DEFAULT NULL, " + MyConstant.D_LY + " REAL DEFAULT NULL, " + MyConstant.D_HOA + " REAL DEFAULT NULL)";
 
         sqLiteDatabase.execSQL(queryScore);
 

@@ -24,7 +24,8 @@ public class FilterDb extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase sqLiteDatabase) {
 
-        String queryFilter = " CREATE TABLE " + MyConstant.TB_FILTER + " ( " + MyConstant.FILTER_NAME + " TEXT DEFAULT NULL," + MyConstant.FILTER_NUM + " TEXT );";
+        String queryFilter = "CREATE TABLE " + MyConstant.TB_FILTER + " ( " + MyConstant.ID_FILTER +
+                " INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL," + MyConstant.FILTER_NAME  + " TEXT DEFAULT NULL," + MyConstant.FILTER_NUM + " TEXT )";
         sqLiteDatabase.execSQL(queryFilter);
 
 

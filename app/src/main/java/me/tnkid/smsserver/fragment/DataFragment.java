@@ -102,8 +102,7 @@ public class DataFragment extends Fragment {
             public void onClick(DialogInterface dialog, int which) {
                 AdapterView.AdapterContextMenuInfo menuInfo = (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
                 Score sd = scoreList.get(menuInfo.position);
-                ScoreDAO scoreDAO = new ScoreDAO(getContext());
-                boolean rs = scoreDAO.delScore(sd.getMHS());
+                boolean rs = scoreDAO.delScore(sd);
                 if(rs){
                     Toast.makeText(getContext(),"Delete succes!",Toast.LENGTH_LONG).show();
 

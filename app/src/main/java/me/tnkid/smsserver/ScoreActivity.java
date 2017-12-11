@@ -37,6 +37,8 @@ public class ScoreActivity extends AppCompatActivity {
         them = findViewById(R.id.them);
         Intent i = getIntent();
         if (i.getExtras().getInt("rq") == MyConstant.RQ_SCORE_UPDATE) {
+            mhs.setCursorVisible(false);
+            mhs.setClickable(false);
             them.setText("Update");
             Score s = (Score) i.getSerializableExtra("score");
             mhs.setText(s.getMHS() + "");
@@ -59,8 +61,6 @@ public class ScoreActivity extends AppCompatActivity {
                     float dt = Float.parseFloat(dtoan.getText().toString());
                     float dl = Float.parseFloat(dly.getText().toString());
                     float dh = Float.parseFloat(dhoa.getText().toString());
-
-
                     if (mhs.getText() != null && tenhs.getText() != null) {
                         Score s = new Score(mh, ths, dt, dl, dh);
                         boolean rs = scoreDAO.editScore(s);
@@ -74,7 +74,7 @@ public class ScoreActivity extends AppCompatActivity {
                             finish();
                         }
                     } else {
-                        Toast.makeText(getApplicationContext(), "Dữ liêu bắt buộc khôgn thể bỏ trống!", Toast.LENGTH_LONG).show();
+                        Toast.makeText(getApplicationContext(), "Dữ liêu bắt buộc không thể bỏ trống!", Toast.LENGTH_LONG).show();
                     }
 
 

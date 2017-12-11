@@ -5,12 +5,22 @@ package me.tnkid.smsserver.model;
  */
 
 public class NumberFilter {
+    private int id;
     private String name;
     private String number;
 
-    public NumberFilter(String number, String name) {
+    public NumberFilter(int id,String name, String number) {
+        this.id = id;
         this.number = number;
         this.name = name;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int _id) {
+        this.id = _id;
     }
 
     public String getName() {

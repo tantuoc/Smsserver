@@ -15,7 +15,7 @@ public class MyConstant {
     public static final String D_LY = "sly";
     public static final String D_HOA = "shoa";
 
-
+    public static final String ID_FILTER = "id_filter";
     public static final String TB_FILTER = "filter";
     public static final String FILTER_NAME = "filter_name";
     public static final String FILTER_NUM = "filter_num";

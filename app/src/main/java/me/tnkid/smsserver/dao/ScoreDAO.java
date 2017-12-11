@@ -61,8 +61,8 @@ public class ScoreDAO {
         return  false;
 
     }
-    public boolean delScore(int mhs){
-        long rs = sqLiteDatabase.delete(MyConstant.TB_SCORE,MyConstant.MA_HS +"="+mhs,null);
+    public boolean delScore(Score s){
+        long rs = sqLiteDatabase.delete(MyConstant.TB_SCORE,MyConstant.MA_HS +"="+s.getMHS(),null);
         close();
         if (rs!=0) return true;
         return  false;
@@ -75,9 +75,9 @@ public class ScoreDAO {
         contentValues.put(MyConstant.D_TOAN,s.getdToan());
         contentValues.put(MyConstant.D_LY,s.getdLy());
         contentValues.put(MyConstant.D_HOA,s.getdHoa());
-
         long result = sqLiteDatabase.update(MyConstant.TB_SCORE,contentValues,MyConstant.MA_HS +" = "+s.getMHS(),null);
         close();
+
         if (result!=0) return true;
         return  false;
 
