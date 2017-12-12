@@ -21,6 +21,7 @@ public class ScoreActivity extends AppCompatActivity {
     Button them;
     ScoreDAO scoreDAO;
     Score s;
+    String rqSc = "rq_s";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,7 +37,7 @@ public class ScoreActivity extends AppCompatActivity {
         dhoa = findViewById(R.id.dhoa);
         them = findViewById(R.id.them);
         Intent i = getIntent();
-        if (i.getExtras().getInt("rq") == MyConstant.RQ_SCORE_UPDATE) {
+        if (i.getExtras().getInt(rqSc) == MyConstant.RQ_SCORE_UPDATE) {
             mhs.setCursorVisible(false);
             mhs.setClickable(false);
             them.setText("Update");
@@ -46,7 +47,7 @@ public class ScoreActivity extends AppCompatActivity {
             dtoan.setText(s.getdToan() + "");
             dly.setText(s.getdLy() + "");
             dhoa.setText(s.getdHoa() + "");
-        } else if (i.getExtras().getInt("rq") == MyConstant.RQ_SCORE_ADD) {
+        } else if (i.getExtras().getInt(rqSc) == MyConstant.RQ_SCORE_ADD) {
             them.setText("Add");
         }
 
@@ -55,7 +56,7 @@ public class ScoreActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent i = getIntent();
-                if (i.getExtras().getInt("rq") == MyConstant.RQ_SCORE_UPDATE) {
+                if (i.getIntExtra(rqSc,0) == MyConstant.RQ_SCORE_UPDATE) {
                     int mh = Integer.parseInt(mhs.getText().toString());
                     String ths = tenhs.getText().toString();
                     float dt = Float.parseFloat(dtoan.getText().toString());
@@ -70,6 +71,7 @@ public class ScoreActivity extends AppCompatActivity {
                         else {
                             Toast.makeText(getApplicationContext(), "Cập nhật thành công!", Toast.LENGTH_LONG).show();
                             Intent ir = new Intent(ScoreActivity.this, AllActivity.class);
+                            ir.putExtra("rs_frag", MyConstant.RS_SCORE);
                             startActivity(ir);
                             finish();
                         }
@@ -78,31 +80,26 @@ public class ScoreActivity extends AppCompatActivity {
                     }
 
 
-
-
-
-                } else if (i.getExtras().getInt("rq") == MyConstant.RQ_SCORE_ADD) {
-                    int mahs = Integer.parseInt(mhs.getText().toString().trim());
-                    String name = tenhs.getText().toString().trim();
-                    float toan = Float.parseFloat(dtoan.getText().toString().trim());
-                    float ly = Float.parseFloat(dly.getText().toString().trim());
-                    float hoa = Float.parseFloat(dhoa.getText().toString().trim());
-                    if (mhs.getText().toString().trim() == null || name == null)
-                        Toast.makeText(ScoreActivity.this, "Mã HS và Tên HS không được để trống", Toast.LENGTH_LONG).show();
-                    else {
-                        s = new Score(mahs, name, toan, ly, hoa);
+                } else if (i.getExtras().getInt(rqSc) == MyConstant.RQ_SCORE_ADD) {
+                    if (mhs.getText() != null && tenhs.getText() != null&&dtoan.getText().toString()!=null&&dly.getText().toString()!=null&&dhoa.getText().toString()!=null) {
+                        s = new Score(Integer.parseInt(mhs.getText().toString()), tenhs.getText().toString(), Float.parseFloat(dtoan.getText().toString()), Float.parseFloat(dly.getText().toString()), Float.parseFloat(dhoa.getText().toString()));
+                        Toast.makeText(ScoreActivity.this, "ĐM!", Toast.LENGTH_LONG).show();
                         boolean rs = scoreDAO.addScore(s);
                         if (!rs)
-                            Toast.makeText(ScoreActivity.this, "Thêm Lỗi", Toast.LENGTH_LONG).show();
+                            Toast.makeText(ScoreActivity.this, "Thêm Lỗi!", Toast.LENGTH_LONG).show();
                         else {
-                            Toast.makeText(ScoreActivity.this, "Thêm Thành công", Toast.LENGTH_LONG).show();
+                            Toast.makeText(ScoreActivity.this, "Thêm Thành công!", Toast.LENGTH_LONG).show();
                             Intent irs = new Intent(ScoreActivity.this, AllActivity.class);
-                           /* i.putExtra("rs_frag", MyConstant.RS_SCORE);*/
+                            irs.putExtra("rs_frag", MyConstant.RS_SCORE);
                             startActivity(irs);
                             finish();
                         }
+                    } else {
+                        Toast.makeText(ScoreActivity.this, "Không được để trống!", Toast.LENGTH_LONG).show();
                     }
+
                 }
+                i.removeExtra("rq_s");
             }
         });
 

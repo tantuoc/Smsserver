@@ -15,24 +15,42 @@ public class SettingActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_setting);
         aSwitchs = findViewById(R.id.switservice);
-
-        Config config = new Config(this);
+        aSwitchf = findViewById(R.id.switfilter);
+        final Config config = new Config(this);
         if(config.isRunning()){
             aSwitchs.setChecked(true);
         }
         else {
             aSwitchs.setChecked(false);
         }
+        if(config.isAllow()){
+            aSwitchf.setChecked(true);
+        }
+        else{
+            aSwitchf.setChecked(false);
+        }
+
+        aSwitchf.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+                if(compoundButton.isChecked()){
+                    config.setFilter(true);
+                }
+                else{
+                    config.setFilter(false);
+                }
+            }
+        });
+
+
 
         aSwitchs.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
                 if(compoundButton.isChecked()){
-                    Config config = new Config(getApplicationContext());
                     config.setState(true);
                 }
                 else{
-                    Config config = new Config(getApplicationContext());
                     config.setState(false);
                 }
             }

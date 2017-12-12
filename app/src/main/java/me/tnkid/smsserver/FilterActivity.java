@@ -6,9 +6,11 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import me.tnkid.smsserver.dao.FilterDAO;
 import me.tnkid.smsserver.model.NumberFilter;
+import me.tnkid.smsserver.myconstant.MyConstant;
 
 public class FilterActivity extends AppCompatActivity {
         EditText filterName,filterNum;
@@ -17,11 +19,24 @@ public class FilterActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_filter);
-
+        
         filterName = findViewById(R.id.add_filtername);
         filterNum = findViewById(R.id.add_filternum);
-
         addFilter = findViewById(R.id.add_filter);
+
+        Intent i = getIntent();
+        int rq_filter = i.getIntExtra("rq_filter",0);
+
+        if (rq_filter==MyConstant.RQ_FILTER_ADD) {
+        addFilter.setText("Add");
+        }
+        if(rq_filter==MyConstant.RQ_FILTER_UPDATE){
+            addFilter.setText("Update");
+            NumberFilter nf = (NumberFilter) i.getSerializableExtra("nf");
+            filterName.setText(nf.getName().toString());
+            filterNum.setText(nf.getNumber().toString());
+        }
+
 
 
         addFilter.setOnClickListener(new View.OnClickListener() {
@@ -29,14 +44,47 @@ public class FilterActivity extends AppCompatActivity {
             public void onClick(View view) {
                 FilterDAO filterDAO = new FilterDAO(getApplicationContext());
                 filterDAO.open();
-                String fname = filterName.getText().toString();
-                String fnum =filterNum.getText().toString();
-                if(fnum!=null) {
-                    NumberFilter n = new NumberFilter(1,fname,fnum);
-                    filterDAO.addFilter(n);
-                    Intent i = new Intent(FilterActivity.this,AllActivity.class);
-                    startActivity(i);
+                Intent i = getIntent();
+
+                int rq_filter = i.getIntExtra("rq_filter",0);
+                if (rq_filter==MyConstant.RQ_FILTER_ADD) {
+                    String fname = filterName.getText().toString();
+                    String fnum =filterNum.getText().toString();
+                    if(fnum!=null) {
+                        NumberFilter n = new NumberFilter(0,fname,fnum);
+                        boolean rs =filterDAO.addFilter(n);
+                        if(rs){
+                        Intent iu = new Intent(FilterActivity.this,AllActivity.class);
+                        iu.putExtra("rs_frag", MyConstant.RS_FILTER);
+                        startActivity(iu);}
+                        else{
+                            Toast.makeText(getApplicationContext(),"Lỗi!",Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                    else Toast.makeText(getApplicationContext(),"Không được để trống!",Toast.LENGTH_SHORT).show();
                 }
+
+
+                if(rq_filter==MyConstant.RQ_FILTER_UPDATE){
+                    String fname = filterName.getText().toString();
+                    String fnum =filterNum.getText().toString();
+                    if(fnum!=null) {
+                        NumberFilter n = new NumberFilter(0,fname,fnum);
+                        boolean rs =filterDAO.editFilter(n);
+                        if(rs){
+                            Intent iu = new Intent(FilterActivity.this,AllActivity.class);
+                            i.putExtra("rs_frag", MyConstant.RS_FILTER);
+                            startActivity(iu);}
+                        else{
+                            Toast.makeText(getApplicationContext(),"Lỗi!",Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                   else Toast.makeText(getApplicationContext(),"Không được để trống!",Toast.LENGTH_SHORT).show();
+
+                }
+
+
+
             }
         });
 

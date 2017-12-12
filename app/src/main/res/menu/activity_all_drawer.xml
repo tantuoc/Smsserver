@@ -6,15 +6,15 @@
     <group android:checkableBehavior="single">
         <item
             android:id="@+id/nav_home"
-
+            android:icon="@drawable/home"
             android:title="Home" />
         <item
             android:id="@+id/nav_data"
-
+            android:icon="@drawable/data"
             android:title="Data" />
         <item
             android:id="@+id/nav_filter"
-
+            android:icon="@drawable/filter"
             android:title="Filter" />
 
     </group>
@@ -22,10 +22,12 @@
     <item android:title="More">
         <menu>
             <item
-                android:id="@+id/nav_share"
-                android:title="Share" />
+                android:id="@+id/nav_message_me"
+                android:icon="@drawable/msge"
+                android:title="Message me" />
             <item
                 android:id="@+id/nav_exit"
+                android:icon="@drawable/exit"
                 android:title="Exit" />
         </menu>
     </item>

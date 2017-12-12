@@ -31,7 +31,7 @@ import me.tnkid.smsserver.myconstant.MyConstant;
  * Created by tom on 12/10/2017.
  */
 
-public class DataFragment extends Fragment {
+public class ScoreFragment extends Fragment {
     @Nullable
 
     Button them;
@@ -51,7 +51,7 @@ public class DataFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 Intent i = new Intent(getContext(), ScoreActivity.class);
-                i.putExtra("rq",MyConstant.RQ_SCORE_ADD);
+                i.putExtra("rq_s",MyConstant.RQ_SCORE_ADD);
                 startActivity(i);
 
             }
@@ -83,7 +83,7 @@ public class DataFragment extends Fragment {
                 Score s = scoreList.get(menuInfo.position);
                 Intent i = new Intent(getContext(),ScoreActivity.class);
                 i.putExtra("score",s);
-                i.putExtra("rq",MyConstant.RQ_SCORE_UPDATE);
+                i.putExtra("rq_s",MyConstant.RQ_SCORE_UPDATE);
                 startActivity(i);
                 break;
             case R.id.del:

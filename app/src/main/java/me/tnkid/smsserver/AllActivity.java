@@ -1,19 +1,18 @@
 package me.tnkid.smsserver;
 import android.app.FragmentTransaction;
 import android.app.FragmentManager;
-import android.content.DialogInterface;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
-import me.tnkid.smsserver.fragment.DataFragment;
+import me.tnkid.smsserver.fragment.ScoreFragment;
 import me.tnkid.smsserver.fragment.FilterFragment;
 import me.tnkid.smsserver.fragment.MainFragment;
 import me.tnkid.smsserver.myconstant.MyConstant;
@@ -42,15 +41,17 @@ public class AllActivity extends AppCompatActivity
 
 
 
-        /*Intent irs = getIntent();
-        int rs = irs.getIntExtra("rs_frag",MyConstant.RS_SCORE);
+        Intent irs = getIntent();
+        String rsF = "rs_frag";
+        int rs = irs.getIntExtra(rsF,MyConstant.RS_SCORE);
         if(rs == MyConstant.RS_SCORE){
             FragmentManager fragmentManager = getFragmentManager();
-            DataFragment dataFragment = new DataFragment();
+            ScoreFragment scoreFragment = new ScoreFragment();
             FragmentTransaction transaction = fragmentManager.beginTransaction();
-            transaction.replace(R.id.contentfragment, dataFragment);
+            transaction.replace(R.id.contentfragment, scoreFragment);
             transaction.addToBackStack(null);
             transaction.commit();
+            irs.removeExtra(rsF);
         }
         if(rs == MyConstant.RS_FILTER){
             FragmentManager fragmentManager = getFragmentManager();
@@ -59,7 +60,16 @@ public class AllActivity extends AppCompatActivity
             transaction.replace(R.id.contentfragment,filterFragment);
             transaction.addToBackStack(null);
             transaction.commit();
-        }*/
+            irs.removeExtra(rsF);
+        }
+        else{
+            FragmentManager fragmentManager = getFragmentManager();
+            MainFragment mainFragment = new MainFragment();
+            FragmentTransaction transaction = fragmentManager.beginTransaction();
+            transaction.replace(R.id.contentfragment, mainFragment);
+            transaction.addToBackStack(null);
+            transaction.commit();
+        }
 
 
     }
@@ -115,9 +125,9 @@ public class AllActivity extends AppCompatActivity
 
         } else if (id == R.id.nav_data) {
             FragmentManager fragmentManager = getFragmentManager();
-            DataFragment dataFragment = new DataFragment();
+            ScoreFragment scoreFragment = new ScoreFragment();
             FragmentTransaction transaction = fragmentManager.beginTransaction();
-            transaction.replace(R.id.contentfragment, dataFragment);
+            transaction.replace(R.id.contentfragment, scoreFragment);
             transaction.addToBackStack(null);
             transaction.commit();
 
@@ -130,7 +140,11 @@ public class AllActivity extends AppCompatActivity
             transaction.commit();
 
 
-        } else if (id == R.id.nav_share) {
+        } else if (id == R.id.nav_message_me) {
+            String url = "http://t.me/tuoctrund";
+            Intent i = new Intent(Intent.ACTION_VIEW);
+            i.setData(Uri.parse(url));
+            startActivity(i);
 
         } else if (id == R.id.nav_exit) {
             System.exit(0);

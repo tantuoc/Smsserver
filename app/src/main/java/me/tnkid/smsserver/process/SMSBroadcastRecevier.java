@@ -13,6 +13,7 @@ import android.util.Log;
 import java.util.ArrayList;
 import java.util.List;
 
+import me.tnkid.smsserver.dao.FilterDAO;
 import me.tnkid.smsserver.dao.ScoreDAO;
 import me.tnkid.smsserver.model.Score;
 
@@ -20,14 +21,15 @@ import me.tnkid.smsserver.model.Score;
 public class SMSBroadcastRecevier extends BroadcastReceiver {
     Score score;
     ScoreDAO scoreDAO;
-    Config config;
-    private boolean state = true;
+    FilterDAO filterDAO;
+
 
     @Override
     public void onReceive(Context context, Intent intent) {
         Config config = new Config(context);
         if (config.isRunning()) {
             scoreDAO = new ScoreDAO(context);
+            scoreDAO.open();
             Bundle intentExtras = intent.getExtras();
             if (intentExtras != null) {
                 Object[] sms = (Object[]) intentExtras.get("pdus");
@@ -39,17 +41,22 @@ public class SMSBroadcastRecevier extends BroadcastReceiver {
                     smsMessage = SmsMessage.createFromPdu((byte[]) so, format);
                     p = smsMessage.getOriginatingAddress().toString();
                     m = smsMessage.getMessageBody().toString();
-                    sendMSG(p,m);
-                  /* intent = new Intent(context,SMSIntentService.class);
-                    intent.putExtra("p",p);
-                    intent.putExtra("m",m);
-                    context.startService(intent);*/
+                    if (config.isAllow())
+                        sendMSG(p, m);
+                    else {
+                        filterDAO = new FilterDAO(context);
+                        filterDAO.open();
+                        if (filterDAO.findNum(p))
+                            sendMSG(p, m);
+                    }
+
 
                 }
 
             }
         }
     }
+
     private void sendSms(String strPhone, String strMessage) {
         SmsManager sms = SmsManager.getDefault();
 
@@ -99,7 +106,7 @@ public class SMSBroadcastRecevier extends BroadcastReceiver {
 
         if (p != null && m != null)
             if (!phanTichSms(m))
-                sendSms(p,"Sai cú pháp! bạn vui lòng gửi lại tin nhắn với cú pháp: DIEM [KHOẢNG TRẮNG] [MÃ HỌC SINH]");
+                sendSms(p, "Sai cú pháp! bạn vui lòng gửi lại tin nhắn với cú pháp: DIEM [KHOẢNG TRẮNG] [MÃ HỌC SINH]");
             else {
                 score = scoreDAO.findScoreByID(getMhsFromMsg(m));
                 if (score != null) {

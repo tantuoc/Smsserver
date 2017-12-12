@@ -4,8 +4,8 @@ package me.tnkid.smsserver.myconstant;
  * Created by tantuoc96 on 12/5/2017.
  */
 public class MyConstant {
-    public static final String DB_MY = "MYDB";
-    public static final String DB2_MY = "MY2DB";
+    public static final String DB_MY = "ScoreDB";
+    public static final String DB2_MY = "FilterDB";
     public static final int DB_VER = 1;
     public static final String TB_SCORE = "score";
 
@@ -28,7 +28,12 @@ public class MyConstant {
 
     public static final int  RQ_SCORE_UPDATE = 10;
     public static final int  RQ_SCORE_ADD = 11;
+
     public static final int  RS_SCORE = 111;
-    public static final int  RS_FILTER = 112;
+    public static final int  RS_FILTER = 112
+            ;
     public static final String  ALLOW_ALL= "allowAll";
+
+    public static final int  RQ_FILTER_UPDATE = 12;
+    public static final int  RQ_FILTER_ADD = 13; 
 }

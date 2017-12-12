@@ -25,6 +25,7 @@ import me.tnkid.smsserver.R;
 import me.tnkid.smsserver.adapter.FilterAdapter;
 import me.tnkid.smsserver.dao.FilterDAO;
 import me.tnkid.smsserver.model.NumberFilter;
+import me.tnkid.smsserver.myconstant.MyConstant;
 
 /**
  * Created by tom on 12/11/2017.
@@ -57,8 +58,9 @@ public class FilterFragment extends Fragment {
         them.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent ith = new Intent(getContext(), FilterActivity.class);
-                startActivity(ith);
+                Intent i = new Intent(getContext(), FilterActivity.class);
+                i.putExtra("rq_filter", MyConstant.RQ_FILTER_ADD);
+                startActivity(i);
             }
         });
 
@@ -76,6 +78,13 @@ public class FilterFragment extends Fragment {
     public boolean onContextItemSelected(MenuItem item) {
         switch (item.getItemId()){
             case R.id.edit:
+                AdapterView.AdapterContextMenuInfo menuInfo = (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
+                NumberFilter nf= filterList.get(menuInfo.position);
+                Intent i = new Intent(getContext(),FilterActivity.class);
+                i.putExtra("nf",nf);
+                i.putExtra("rq_filter", MyConstant.RQ_FILTER_UPDATE);
+                startActivity(i);
+
                 break;
             case R.id.del:
                showAlertX(item);

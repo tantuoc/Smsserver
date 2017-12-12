@@ -1,10 +1,12 @@
 package me.tnkid.smsserver.model;
 
+import java.io.Serializable;
+
 /**
  * Created by tom on 12/11/2017.
  */
 
-public class NumberFilter {
+public class NumberFilter implements Serializable {
     private int id;
     private String name;
     private String number;

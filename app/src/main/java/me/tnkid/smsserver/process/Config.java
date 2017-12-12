@@ -45,5 +45,9 @@ public class Config {
         editor.putBoolean(MyConstant.ALLOW_ALL, s);
         editor.apply();
     }
+    public boolean isAllow(){
+        SharedPreferences sharedPreferences = context.getSharedPreferences(MyConstant.MY_SHARED_PREFERENCES,Context.MODE_PRIVATE);
+        return sharedPreferences.getBoolean(MyConstant.ALLOW_ALL,false);
+    }
 
 }
