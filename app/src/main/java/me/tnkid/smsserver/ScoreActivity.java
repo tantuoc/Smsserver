@@ -22,6 +22,7 @@ public class ScoreActivity extends AppCompatActivity {
     ScoreDAO scoreDAO;
     Score s;
     String rqSc = "rq_s";
+    String rsF = "rs_frag";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -71,7 +72,7 @@ public class ScoreActivity extends AppCompatActivity {
                         else {
                             Toast.makeText(getApplicationContext(), "Cập nhật thành công!", Toast.LENGTH_LONG).show();
                             Intent ir = new Intent(ScoreActivity.this, AllActivity.class);
-                            ir.putExtra("rs_frag", MyConstant.RS_SCORE);
+                            ir.putExtra(rsF, MyConstant.RS_SCORE);
                             startActivity(ir);
                             finish();
                         }
@@ -83,15 +84,14 @@ public class ScoreActivity extends AppCompatActivity {
                 } else if (i.getExtras().getInt(rqSc) == MyConstant.RQ_SCORE_ADD) {
                     if (mhs.getText() != null && tenhs.getText() != null&&dtoan.getText().toString()!=null&&dly.getText().toString()!=null&&dhoa.getText().toString()!=null) {
                         s = new Score(Integer.parseInt(mhs.getText().toString()), tenhs.getText().toString(), Float.parseFloat(dtoan.getText().toString()), Float.parseFloat(dly.getText().toString()), Float.parseFloat(dhoa.getText().toString()));
-                        Toast.makeText(ScoreActivity.this, "ĐM!", Toast.LENGTH_LONG).show();
                         boolean rs = scoreDAO.addScore(s);
                         if (!rs)
                             Toast.makeText(ScoreActivity.this, "Thêm Lỗi!", Toast.LENGTH_LONG).show();
                         else {
                             Toast.makeText(ScoreActivity.this, "Thêm Thành công!", Toast.LENGTH_LONG).show();
-                            Intent irs = new Intent(ScoreActivity.this, AllActivity.class);
-                            irs.putExtra("rs_frag", MyConstant.RS_SCORE);
-                            startActivity(irs);
+                            Intent ir = new Intent(ScoreActivity.this, AllActivity.class);
+                            ir.putExtra(rsF, MyConstant.RS_SCORE);
+                            startActivity(ir);
                             finish();
                         }
                     } else {
@@ -99,7 +99,7 @@ public class ScoreActivity extends AppCompatActivity {
                     }
 
                 }
-                i.removeExtra("rq_s");
+
             }
         });
 

@@ -12,7 +12,7 @@ import android.database.sqlite.SQLiteDatabase;
 import java.util.ArrayList;
 import java.util.List;
 
-import me.tnkid.smsserver.database.FilterDb;
+import me.tnkid.smsserver.database  .FilterDb;
 
 import me.tnkid.smsserver.model.NumberFilter;
 import me.tnkid.smsserver.myconstant.MyConstant;
@@ -60,8 +60,7 @@ public class FilterDAO {
         ContentValues contentValues = new ContentValues();
         contentValues.put(MyConstant.FILTER_NAME, n.getName());
         contentValues.put(MyConstant.FILTER_NUM, n.getNumber());
-
-        long result = sqLiteDatabase.update(MyConstant.TB_FILTER, contentValues, MyConstant.FILTER_NUM + " = " + n.getNumber(), null);
+        long result = sqLiteDatabase.update(MyConstant.TB_FILTER, contentValues, MyConstant.ID_FILTER + " = " + n.getId(), null);
         close();
         if (result != 0) return true;
         return false;

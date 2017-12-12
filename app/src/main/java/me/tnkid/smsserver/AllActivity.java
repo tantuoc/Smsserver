@@ -16,6 +16,7 @@ import me.tnkid.smsserver.fragment.ScoreFragment;
 import me.tnkid.smsserver.fragment.FilterFragment;
 import me.tnkid.smsserver.fragment.MainFragment;
 import me.tnkid.smsserver.myconstant.MyConstant;
+import me.tnkid.smsserver.process.Config;
 
 
 public class AllActivity extends AppCompatActivity
@@ -39,11 +40,12 @@ public class AllActivity extends AppCompatActivity
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
-
+        Config config = new Config(this);
+        config.isFirstRun();
 
         Intent irs = getIntent();
         String rsF = "rs_frag";
-        int rs = irs.getIntExtra(rsF,MyConstant.RS_SCORE);
+        int rs = irs.getIntExtra(rsF,0);
         if(rs == MyConstant.RS_SCORE){
             FragmentManager fragmentManager = getFragmentManager();
             ScoreFragment scoreFragment = new ScoreFragment();
@@ -51,16 +53,15 @@ public class AllActivity extends AppCompatActivity
             transaction.replace(R.id.contentfragment, scoreFragment);
             transaction.addToBackStack(null);
             transaction.commit();
-            irs.removeExtra(rsF);
+
         }
-        if(rs == MyConstant.RS_FILTER){
+        else if(rs == MyConstant.RS_FILTER){
             FragmentManager fragmentManager = getFragmentManager();
             FilterFragment filterFragment = new FilterFragment();
             FragmentTransaction transaction = fragmentManager.beginTransaction();
             transaction.replace(R.id.contentfragment,filterFragment);
             transaction.addToBackStack(null);
             transaction.commit();
-            irs.removeExtra(rsF);
         }
         else{
             FragmentManager fragmentManager = getFragmentManager();
@@ -69,6 +70,7 @@ public class AllActivity extends AppCompatActivity
             transaction.replace(R.id.contentfragment, mainFragment);
             transaction.addToBackStack(null);
             transaction.commit();
+
         }
 
 

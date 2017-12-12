@@ -35,5 +35,7 @@ public class MyConstant {
     public static final String  ALLOW_ALL= "allowAll";
 
     public static final int  RQ_FILTER_UPDATE = 12;
-    public static final int  RQ_FILTER_ADD = 13; 
+    public static final int  RQ_FILTER_ADD = 13;
+    public static final String  SYN_TAX= "systax";
+
 }

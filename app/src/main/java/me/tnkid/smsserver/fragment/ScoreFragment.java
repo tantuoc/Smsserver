@@ -63,6 +63,8 @@ public class ScoreFragment extends Fragment {
         scoreAdapter.notifyDataSetChanged();
         lv.setAdapter(scoreAdapter);
         registerForContextMenu(lv);
+
+
         return view;
     }
 
@@ -102,6 +104,8 @@ public class ScoreFragment extends Fragment {
             public void onClick(DialogInterface dialog, int which) {
                 AdapterView.AdapterContextMenuInfo menuInfo = (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
                 Score sd = scoreList.get(menuInfo.position);
+                scoreDAO = new ScoreDAO(getContext());
+                scoreDAO.open();
                 boolean rs = scoreDAO.delScore(sd);
                 if(rs){
                     Toast.makeText(getContext(),"Delete succes!",Toast.LENGTH_LONG).show();

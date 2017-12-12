@@ -49,7 +49,7 @@ public class FilterAdapter extends BaseAdapter {
         View row = layoutInflater.inflate(layout, viewGroup, false);
         TextView filtername = row.findViewById(R.id.name_filter);
         TextView filternum = row.findViewById(R.id.num_filter);
-        filtername.setText("Tên :" + filterList.get(i).getName().toString()+filterList.get(i).getId());
+        filtername.setText("Tên :" + filterList.get(i).getName().toString());
         filternum.setText("SĐT :" + filterList.get(i).getNumber().toString());
         return row;
     }

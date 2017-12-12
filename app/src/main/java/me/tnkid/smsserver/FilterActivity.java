@@ -15,11 +15,12 @@ import me.tnkid.smsserver.myconstant.MyConstant;
 public class FilterActivity extends AppCompatActivity {
         EditText filterName,filterNum;
         Button addFilter;
+         String rsF = "rs_frag";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_filter);
-        
+
         filterName = findViewById(R.id.add_filtername);
         filterNum = findViewById(R.id.add_filternum);
         addFilter = findViewById(R.id.add_filter);
@@ -35,6 +36,7 @@ public class FilterActivity extends AppCompatActivity {
             NumberFilter nf = (NumberFilter) i.getSerializableExtra("nf");
             filterName.setText(nf.getName().toString());
             filterNum.setText(nf.getNumber().toString());
+
         }
 
 
@@ -55,8 +57,10 @@ public class FilterActivity extends AppCompatActivity {
                         boolean rs =filterDAO.addFilter(n);
                         if(rs){
                         Intent iu = new Intent(FilterActivity.this,AllActivity.class);
-                        iu.putExtra("rs_frag", MyConstant.RS_FILTER);
-                        startActivity(iu);}
+                        iu.putExtra(rsF, MyConstant.RS_FILTER);
+                        startActivity(iu);
+                        finish();
+                        }
                         else{
                             Toast.makeText(getApplicationContext(),"Lỗi!",Toast.LENGTH_SHORT).show();
                         }
@@ -66,15 +70,20 @@ public class FilterActivity extends AppCompatActivity {
 
 
                 if(rq_filter==MyConstant.RQ_FILTER_UPDATE){
+
                     String fname = filterName.getText().toString();
                     String fnum =filterNum.getText().toString();
                     if(fnum!=null) {
-                        NumberFilter n = new NumberFilter(0,fname,fnum);
+                        NumberFilter nf = (NumberFilter) i.getSerializableExtra("nf");
+                        NumberFilter n = new NumberFilter(nf.getId(),fname,fnum);
                         boolean rs =filterDAO.editFilter(n);
                         if(rs){
+                            Toast.makeText(getApplicationContext(),"Cập nhật thành công!",Toast.LENGTH_SHORT).show();
                             Intent iu = new Intent(FilterActivity.this,AllActivity.class);
-                            i.putExtra("rs_frag", MyConstant.RS_FILTER);
-                            startActivity(iu);}
+                            iu.putExtra(rsF, MyConstant.RS_FILTER);
+                            startActivity(iu);
+                            finish();
+                        }
                         else{
                             Toast.makeText(getApplicationContext(),"Lỗi!",Toast.LENGTH_SHORT).show();
                         }
@@ -83,7 +92,7 @@ public class FilterActivity extends AppCompatActivity {
 
                 }
 
-
+                i.removeExtra("rq_filter");
 
             }
         });

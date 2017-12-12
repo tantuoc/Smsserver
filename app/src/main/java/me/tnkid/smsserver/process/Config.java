@@ -18,17 +18,17 @@ public class Config {
     }
 
     public boolean isRunning() {
-        isFirstRun();
         SharedPreferences sharedPreferences = context.getSharedPreferences(MyConstant.MY_SHARED_PREFERENCES,Context.MODE_PRIVATE);
         return sharedPreferences.getBoolean(MyConstant.IS_RUNNING,false);
     }
 
     public  void isFirstRun(){
         SharedPreferences sharedPreferences = context.getSharedPreferences(MyConstant.MY_SHARED_PREFERENCES,Context.MODE_PRIVATE);
-        if (!sharedPreferences.contains(MyConstant.IS_RUNNING)) {
+        if (!sharedPreferences.contains(MyConstant.IS_RUNNING)||!sharedPreferences.contains(MyConstant.SYN_TAX)||!sharedPreferences.contains(MyConstant.ALLOW_ALL)) {
             SharedPreferences.Editor editor = sharedPreferences.edit();
             editor.putBoolean(MyConstant.IS_RUNNING, false);
             editor.putBoolean(MyConstant.ALLOW_ALL, false);
+            editor.putString(MyConstant.SYN_TAX,"diem");
             editor.commit();
         }
     }
@@ -48,6 +48,19 @@ public class Config {
     public boolean isAllow(){
         SharedPreferences sharedPreferences = context.getSharedPreferences(MyConstant.MY_SHARED_PREFERENCES,Context.MODE_PRIVATE);
         return sharedPreferences.getBoolean(MyConstant.ALLOW_ALL,false);
+    }
+
+
+    public String getSyntax(){
+        SharedPreferences sharedPreferences = context.getSharedPreferences(MyConstant.MY_SHARED_PREFERENCES,Context.MODE_PRIVATE);
+       String s = sharedPreferences.getString(MyConstant.SYN_TAX,null);
+        return s;
+    }
+    public void updateSyntax(String s){
+        SharedPreferences sharedPreferences = context.getSharedPreferences(MyConstant.MY_SHARED_PREFERENCES,Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putString(MyConstant.SYN_TAX,s);
+        editor.apply();
     }
 
 }
