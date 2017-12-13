@@ -81,10 +81,7 @@ public class AllActivity extends AppCompatActivity
 
         int permissionCheck = ContextCompat.checkSelfPermission(this,
                 Manifest.permission.RECEIVE_SMS);
-        if(permissionCheck == PackageManager.PERMISSION_GRANTED){
-
-        }
-        else{
+        if(permissionCheck != PackageManager.PERMISSION_GRANTED){
             Toast.makeText(this,"Chưa cấp quyền SMS",Toast.LENGTH_SHORT).show();
         }
 
