@@ -1,10 +1,13 @@
 package me.tnkid.smsserver;
+import android.Manifest;
 import android.app.FragmentTransaction;
 import android.app.FragmentManager;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -12,6 +15,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Toast;
+
 import me.tnkid.smsserver.fragment.ScoreFragment;
 import me.tnkid.smsserver.fragment.FilterFragment;
 import me.tnkid.smsserver.fragment.MainFragment;
@@ -73,6 +78,15 @@ public class AllActivity extends AppCompatActivity
 
         }
 
+
+        int permissionCheck = ContextCompat.checkSelfPermission(this,
+                Manifest.permission.RECEIVE_SMS);
+        if(permissionCheck == PackageManager.PERMISSION_GRANTED){
+
+        }
+        else{
+            Toast.makeText(this,"Chưa cấp quyền SMS",Toast.LENGTH_SHORT).show();
+        }
 
     }
 
@@ -156,6 +170,7 @@ public class AllActivity extends AppCompatActivity
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
+
 
 
 }
