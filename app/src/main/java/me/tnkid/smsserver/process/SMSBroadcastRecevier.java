@@ -42,17 +42,14 @@ public class SMSBroadcastRecevier extends BroadcastReceiver {
                     p = smsMessage.getOriginatingAddress().toString();
                     m = smsMessage.getMessageBody().toString();
                     if (config.isAllow())
-                        sendMSG(p, m,context);
+                        sendMSG(p, m, context);
                     else {
                         filterDAO = new FilterDAO(context);
                         filterDAO.open();
                         if (filterDAO.findNum(p))
-                            sendMSG(p, m,context);
+                            sendMSG(p, m, context);
                     }
-
-
                 }
-
             }
         }
     }
@@ -69,7 +66,7 @@ public class SMSBroadcastRecevier extends BroadcastReceiver {
         }
     }
 
-    private boolean phanTichSms(String msg,Context context) {
+    private boolean phanTichSms(String msg, Context context) {
         List<String> ls = new ArrayList<>();
         Config config = new Config(context);
         String syn = config.getSyntax();
@@ -87,7 +84,7 @@ public class SMSBroadcastRecevier extends BroadcastReceiver {
         return false;
     }
 
-    private String getMhsFromMsg(String msg,Context context) {
+    private String getMhsFromMsg(String msg, Context context) {
         List<String> ls = new ArrayList<String>();
         String mhs = null;
         String[] ss = msg.trim().split("\\s");
@@ -105,15 +102,14 @@ public class SMSBroadcastRecevier extends BroadcastReceiver {
     }
 
 
-
-    private void sendMSG(String p, String m,Context context) {
+    private void sendMSG(String p, String m, Context context) {
         Config config = new Config(context);
         String syn = config.getSyntax();
         if (p != null && m != null)
-            if (!phanTichSms(m,context))
-                sendSms(p, "Sai cú pháp! bạn vui lòng gửi lại tin nhắn với cú pháp: "+syn.toUpperCase() +" [KHOẢNG TRẮNG] [MÃ HỌC SINH]");
+            if (!phanTichSms(m, context))
+                sendSms(p, "Sai cú pháp! bạn vui lòng gửi lại tin nhắn với cú pháp: " + syn.toUpperCase() + " [KHOẢNG TRẮNG] [MÃ HỌC SINH]");
             else {
-                score = scoreDAO.findScoreByID(getMhsFromMsg(m,context));
+                score = scoreDAO.findScoreByID(getMhsFromMsg(m, context));
                 if (score != null) {
                     String rs = "Mã học sinh : " + score.getMHS() + "\n";
                     rs += "Tên : " + score.getName() + "\n";
